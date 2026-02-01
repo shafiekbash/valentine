@@ -185,4 +185,80 @@ function showFoodQuestion(){
   document.body.innerHTML = `
     <div class="fade-in">
       <h2>WHAT WOULD YOU LIKE TO EAT?</h2>
-      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/83d4643abf8c6a0
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/83d4643abf8c6a0f86b55d7ad624998e9c201451/IMG_4380.jpeg"><button onclick="selectFood('Pasta')">PASTA</button></div>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/83d4643abf8c6a0f86b55d7ad624998e9c201451/IMG_4379.jpeg"><button onclick="selectFood('Sushi')">SUSHI</button></div>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/83d4643abf8c6a0f86b55d7ad624998e9c201451/IMG_4375.jpeg"><button onclick="selectFood('Noodles')">NOODLES</button></div>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/83d4643abf8c6a0f86b55d7ad624998e9c201451/IMG_4381.jpeg"><button onclick="selectFood('McDonalds')">MCDONALDS</button></div>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/83d4643abf8c6a0f86b55d7ad624998e9c201451/IMG_4386.jpeg"><button onclick="selectFood('KFC')">KFC</button></div>
+      <div id="nextBtnContainer"></div>
+    </div>
+  `;
+}
+function selectFood(food){ userChoices.food=food; showNextButton('showActivityQuestion'); }
+
+/* PAGE 5: Activity */
+function showActivityQuestion(){
+  document.body.innerHTML = `
+    <div class="fade-in">
+      <h2>WHAT WOULD YOU LIKE TO DO?</h2>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/7f709acebf62803dff6c9d57c726b9ae91c296bc/IMG_4385.jpeg"><button onclick="selectActivity('Movie')">MOVIE</button></div>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/7f709acebf62803dff6c9d57c726b9ae91c296bc/IMG_4378.jpeg"><button onclick="selectActivity('Picnic')">PICNIC</button></div>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/7f709acebf62803dff6c9d57c726b9ae91c296bc/IMG_4377.jpeg"><button onclick="selectActivity('Swimming')">SWIMMING</button></div>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/7f709acebf62803dff6c9d57c726b9ae91c296bc/IMG_4382.jpeg"><button onclick="selectActivity('Something Naughty')">SOMETHING NAUGHTY</button></div>
+      <div id="nextBtnContainer"></div>
+    </div>
+  `;
+}
+function selectActivity(act){ userChoices.activity=act; showNextButton('showExcitementSlider'); }
+
+/* PAGE 6: Excitement slider */
+function showExcitementSlider(){
+  document.body.innerHTML = `
+    <div class="fade-in">
+      <h2>HOW EXCITED ARE YOU?</h2>
+      <input type="range" id="slider" min="0" max="10" value="5" oninput="updateSliderValue(this.value)">
+      <p id="sliderValue">5</p>
+      <div id="nextBtnContainer"></div>
+    </div>
+  `;
+  showNextButton('showSummary');
+}
+function updateSliderValue(val){ userChoices.excitement=val; document.getElementById('sliderValue').innerText=val; }
+
+/* PAGE 7: Summary */
+function showSummary(){
+  document.body.innerHTML = `
+    <div class="fade-in">
+      <h2>HERE IS YOUR VALENTINE PLAN</h2>
+      <p><strong>DATE:</strong> ${userChoices.date}</p>
+      <p><strong>FOOD:</strong> ${userChoices.food}</p>
+      <p><strong>ACTIVITY:</strong> ${userChoices.activity}</p>
+      <p><strong>EXCITEMENT LEVEL:</strong> ${userChoices.excitement}</p>
+      <button onclick="showFinal()">CONFIRM VALENTINE 💖</button>
+    </div>
+  `;
+}
+
+/* PAGE 8: Final hearts explode */
+function showFinal(){
+  document.body.innerHTML = `
+    <div class="fade-in">
+      <h1>I LOVE YOU 💖</h1>
+      <img src="https://raw.githubusercontent.com/shafiekbash/valentine/main/1C5042E5-E31E-4E59-A488-EC4145B575F9.jpeg" alt="Us">
+    </div>
+  `;
+  for(let i=0;i<100;i++){
+    const heart=document.createElement('div');
+    heart.className='heart';
+    heart.style.left=Math.random()*window.innerWidth+'px';
+    heart.style.top='50%';
+    heart.style.fontSize=(10+Math.random()*30)+'px';
+    heart.style.animationDuration=(2+Math.random()*2)+'s';
+    heart.innerHTML='💖';
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),3000);
+  }
+}
+</script>
+</body>
+</html>
