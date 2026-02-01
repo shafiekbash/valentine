@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Be My Valentine 💌</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      text-align: center;
+      padding: 40px;
+      color: #5a1a2b;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.1rem;
+    }
+
+    img {
+      max-width: 280px;
+      border-radius: 20px;
+      margin: 20px 0;
+    }
+
+    .buttons {
+      margin-top: 30px;
+    }
+
+    button {
+      font-size: 1.1rem;
+      padding: 12px 22px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      margin: 10px;
+      transition: 0.3s;
+    }
+
+    #yes {
+      background-color: #ff4d6d;
+      color: white;
+    }
+
+    #yes:hover {
+      transform: scale(1.1);
+    }
+
+    #no {
+      background-color: #ffe5ec;
+      color: #5a1a2b;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Wyatt 💘</h1>
+  <p>So… I was thinking…</p>
+
+  <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="cute gif">
+
+  <h2>Will you be my Valentine?</h2>
+
+  <div class="buttons">
+    <button id="yes" onclick="yesClicked()">YES 💖</button>
+    <button id="no" onmouseover="moveNo()">No 🙄</button>
+  </div>
+
+  <script>
+    function yesClicked() {
+      document.body.innerHTML = `
+        <h1>YAY 😭💖</h1>
+        <p>Okay so here’s the plan…</p>
+        <p>📍 Date spot<br>🕖 Time<br>👕 Outfit vibe<br>🍽 Food</p>
+        <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
+      `;
+    }
+
+    function moveNo() {
+      const button = document.getElementById("no");
+      const x = Math.random() * (window.innerWidth - 100);
+      const y = Math.random() * (window.innerHeight - 50);
+      button.style.left = x + "px";
+      button.style.top = y + "px";
+    }
+  </script>
+
+</body>
+</html>
