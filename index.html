@@ -2,105 +2,263 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>YOU ARE MY WISH</title>
+<title>Be My Valentine 💌</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  html, body {
-    margin: 0;
-    height: 100%;
-    overflow: hidden;
-    background: linear-gradient(135deg, #1a1a1a, #555555); /* metallic/chrome vibe */
-    font-family: 'Arial Black', sans-serif;
-    color: white;
-    user-select: none;
-  }
-  #overlayText {
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    top: 80%;
-    font-size: 2em;
-    letter-spacing: 0.2em;
-    cursor: pointer;
-    text-transform: uppercase;
-  }
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffb6c1; /* Baby pink */
+  text-align: center;
+  padding: 40px;
+  color: #d43f5e; /* Dark pink for text */
+  font-weight: 700;
+  text-transform: uppercase;
+  overflow-x: hidden;
+  margin:0;
+  transition: all 0.5s ease;
+}
+
+/* Fade-in animation for pages */
+.fade-in {
+  opacity:0;
+  animation: fadeIn 0.8s forwards;
+}
+@keyframes fadeIn { to { opacity:1; } }
+
+/* Headings & paragraphs */
+h1,h2,h3,p { margin:15px 0; }
+
+/* Images */
+img { max-width: 280px; border-radius: 15px; margin:20px 0; opacity:0; animation:fadeIn 1s forwards; }
+
+/* Buttons aesthetic bubbles */
+button {
+  font-size: 1.1rem;
+  padding: 14px 26px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+  transition: 0.3s all;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+  background-color:#ff5c8d;
+  color:#fff;
+  transform: scale(0);
+  animation: buttonPop 0.5s forwards;
+}
+button:hover { transform: scale(1.1) rotate(-1deg); }
+
+/* Button pop animation */
+@keyframes buttonPop { to { transform: scale(1); } }
+
+/* Floating hearts */
+.heart {
+  position: absolute;
+  font-size: 20px;
+  color: #ff69b4;
+  opacity: 0.7;
+  animation: float 3s linear infinite;
+}
+@keyframes float {
+  0% { transform: translateY(0); opacity:0.7; }
+  50% { transform: translateY(-50px); opacity:1; }
+  100% { transform: translateY(-100px); opacity:0; }
+}
+
+/* Option images */
+.option-img { width: 120px; border-radius: 20px; display:block; margin: 0 auto 5px; }
+
+/* Slider styling */
+input[type=range] {
+  -webkit-appearance: none;
+  width: 80%;
+  height: 10px;
+  border-radius: 5px;
+  background: #ffc0cb;
+  outline: none;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius:50%;
+  background: #ff5c8d;
+  cursor:pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+input[type=range]::-moz-range-thumb {
+  width: 25px; height:25px; border-radius:50%;
+  background: #ff5c8d;
+  cursor:pointer;
+}
 </style>
 </head>
 <body>
-<div id="overlayText">MAKE A WISH</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.152.0/examples/js/controls/OrbitControls.js"></script>
+
+<!-- AUDIO -->
+<audio id="bgMusic" autoplay loop>
+  <source src="https://raw.githubusercontent.com/shafiekbash/valentine/2a0744efee5aa93df8bd4cc7eb9bae216d8d3952/tate-mcrae-2-hands-lyrics-128-ytshorts.savetube.me-[AudioTrimmer.com].mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<button onclick="toggleMusic()">🎵 Play/Pause Music</button>
+
+<!-- PAGE 1: Intro -->
+<div id="page1" class="fade-in">
+  <h1>WYATT COBIE CYSTER</h1>
+  <p>I MADE YOU SOMETHING BECAUSE WORDS WEREN'T ENOUGH</p>
+  <img src="https://raw.githubusercontent.com/shafiekbash/valentine/9593a3d6aaf4f31c19a8df63e98766a34040a820/IMG_4055.jpeg" alt="Tate McRae">
+  <h2>WILL YOU BE MY VALENTINE? 💓</h2>
+  <div>
+    <button id="yesBtn" onclick="yesClicked()">YES 💖</button>
+    <button id="noBtn" onclick="noClicked()">NO 🙄</button>
+  </div>
+</div>
+
 <script>
-// Basic Scene Setup
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x1a1a1a); // metallic black
-
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-camera.position.z = 5;
-
-const renderer = new THREE.WebGLRenderer({antialias: true});
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-// Lighting for metallic feel
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-directionalLight.position.set(5,10,7.5);
-scene.add(directionalLight);
-
-// Orbit Controls (optional, for demo purposes)
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enablePan = false;
-controls.enableZoom = false;
-
-// Dandelion placeholder (sphere + particles)
-const dandelionGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-const dandelionMaterial = new THREE.MeshStandardMaterial({color: 0xcccccc, metalness: 0.9, roughness: 0.2});
-const dandelion = new THREE.Mesh(dandelionGeometry, dandelionMaterial);
-scene.add(dandelion);
-
-// Particle system for blowing effect
-const particleCount = 500;
-const particlesGeometry = new THREE.BufferGeometry();
-const positions = new Float32Array(particleCount * 3);
-for (let i=0; i<particleCount*3; i++) positions[i] = 0; // start at center
-particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-const particlesMaterial = new THREE.PointsMaterial({color: 0x98fb98, size: 0.05}); // pastel green
-const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-scene.add(particles);
-
-// Animation logic
-let blowing = false;
-document.getElementById('overlayText').addEventListener('click', () => {
-  blowing = true;
-  document.getElementById('overlayText').style.display = 'none';
-});
-
-function animate() {
-  requestAnimationFrame(animate);
-  
-  if (blowing) {
-    const positions = particles.geometry.attributes.position.array;
-    for (let i = 0; i < particleCount; i++) {
-      positions[i*3] += (Math.random()-0.5)*0.05;
-      positions[i*3+1] += 0.05 + Math.random()*0.05; // slowly rise
-      positions[i*3+2] += (Math.random()-0.5)*0.05;
-    }
-    particles.geometry.attributes.position.needsUpdate = true;
-  }
-  
-  dandelion.rotation.y += 0.005;
-  renderer.render(scene, camera);
+/* Play/Pause Music */
+function toggleMusic() {
+  const music = document.getElementById('bgMusic');
+  if(music.paused) music.play();
+  else music.pause();
 }
-animate();
 
-// Handle window resize
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth/window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
+/* Floating hearts */
+setInterval(() => {
+  const heart = document.createElement('div');
+  heart.className='heart';
+  heart.style.left = Math.random()*window.innerWidth+'px';
+  heart.style.fontSize = (15+Math.random()*20)+'px';
+  heart.innerHTML='💖';
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),4000);
+},400);
+
+/* No button shrink */
+let noSize = 1;
+function noClicked() {
+  const noBtn = document.getElementById('noBtn');
+  noSize -= 0.2;
+  if(noSize<=0) noBtn.style.display='none';
+  else noBtn.style.transform = `scale(${noSize})`;
+}
+
+/* Yes click -> Page 2 */
+function yesClicked() {
+  document.body.innerHTML = `
+    <div class="fade-in">
+      <h1>YAYYY 🥹 - I KNEW YOU'D PICK THIS!</h1>
+      <img src="https://raw.githubusercontent.com/shafiekbash/valentine/cd305ac26ac55ff8b6657ca3d24c962913326a3d/ScreenRecording_07-25-202523-22-04_1-ezgif.com-video-to-gif-converter%202.gif" alt="Us">
+      <br>
+      <button onclick="continueToDate()">CONTINUE 💘</button>
+    </div>
+  `;
+}
+
+/* Continue to date */
+function continueToDate() { showDateQuestion(); }
+
+let userChoices = {};
+
+/* PAGE 3: Date selection */
+function showDateQuestion(){
+  document.body.innerHTML = `
+    <div class="fade-in">
+      <h2>WHEN ARE YOU FREE?</h2>
+      <button onclick="selectDate('13.02.2026')">13.02.2026</button>
+      <button onclick="selectDate('15.02.2026')">15.02.2026</button>
+      <button onclick="selectDate('29.02.2026')">29.02.2026</button>
+      <div id="nextBtnContainer"></div>
+    </div>
+  `;
+}
+function selectDate(date){
+  userChoices.date = date;
+  showNextButton('showFoodQuestion');
+}
+function showNextButton(nextFunction){
+  document.getElementById('nextBtnContainer').innerHTML = `<button onclick="${nextFunction}()">NEXT 💘</button>`;
+}
+
+/* PAGE 4: Food */
+function showFoodQuestion(){
+  document.body.innerHTML = `
+    <div class="fade-in">
+      <h2>WHAT WOULD YOU LIKE TO EAT?</h2>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/83d4643abf8c6a0f86b55d7ad624998e9c201451/IMG_4380.jpeg"><button onclick="selectFood('Pasta')">PASTA</button></div>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/83d4643abf8c6a0f86b55d7ad624998e9c201451/IMG_4379.jpeg"><button onclick="selectFood('Sushi')">SUSHI</button></div>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/83d4643abf8c6a0f86b55d7ad624998e9c201451/IMG_4375.jpeg"><button onclick="selectFood('Noodles')">NOODLES</button></div>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/83d4643abf8c6a0f86b55d7ad624998e9c201451/IMG_4381.jpeg"><button onclick="selectFood('McDonalds')">MCDONALDS</button></div>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/83d4643abf8c6a0f86b55d7ad624998e9c201451/IMG_4386.jpeg"><button onclick="selectFood('KFC')">KFC</button></div>
+      <div id="nextBtnContainer"></div>
+    </div>
+  `;
+}
+function selectFood(food){ userChoices.food=food; showNextButton('showActivityQuestion'); }
+
+/* PAGE 5: Activity */
+function showActivityQuestion(){
+  document.body.innerHTML = `
+    <div class="fade-in">
+      <h2>WHAT WOULD YOU LIKE TO DO?</h2>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/42f9cd7214c55818d571702ee3381f8c099fe6d3/IMG_4388.jpeg"><button onclick="selectActivity('Movie')">MOVIE</button></div>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/42f9cd7214c55818d571702ee3381f8c099fe6d3/IMG_4389.jpeg"><button onclick="selectActivity('Picnic')">PICNIC</button></div>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/42f9cd7214c55818d571702ee3381f8c099fe6d3/IMG_4390.jpeg"><button onclick="selectActivity('Swimming')">SWIMMING</button></div>
+      <div class="option-btn"><img class="option-img" src="https://raw.githubusercontent.com/shafiekbash/valentine/42f9cd7214c55818d571702ee3381f8c099fe6d3/IMG_4391.jpeg"><button onclick="selectActivity('Something Naughty')">SOMETHING NAUGHTY</button></div>
+      <div id="nextBtnContainer"></div>
+    </div>
+  `;
+}
+function selectActivity(act){ userChoices.activity=act; showNextButton('showExcitementSlider'); }
+
+/* PAGE 6: Excitement slider */
+function showExcitementSlider(){
+  document.body.innerHTML = `
+    <div class="fade-in">
+      <h2>HOW EXCITED ARE YOU?</h2>
+      <input type="range" id="slider" min="0" max="10" value="5" oninput="updateSliderValue(this.value)">
+      <p id="sliderValue">5</p>
+      <div id="nextBtnContainer"></div>
+    </div>
+  `;
+  showNextButton('showSummary');
+}
+function updateSliderValue(val){ userChoices.excitement=val; document.getElementById('sliderValue').innerText=val; }
+
+/* PAGE 7: Summary */
+function showSummary(){
+  document.body.innerHTML = `
+    <div class="fade-in">
+      <h2>HERE IS YOUR VALENTINE PLAN</h2>
+      <p><strong>DATE:</strong> ${userChoices.date}</p>
+      <p><strong>FOOD:</strong> ${userChoices.food}</p>
+      <p><strong>ACTIVITY:</strong> ${userChoices.activity}</p>
+      <p><strong>EXCITEMENT LEVEL:</strong> ${userChoices.excitement}</p>
+      <button onclick="showFinal()">CONFIRM VALENTINE 💖</button>
+    </div>
+  `;
+}
+
+/* PAGE 8: Final hearts explode */
+function showFinal(){
+  document.body.innerHTML = `
+    <div class="fade-in">
+      <h1>I LOVE YOU 💖</h1>
+      <img src="https://raw.githubusercontent.com/shafiekbash/valentine/cd305ac26ac55ff8b6657ca3d24c962913326a3d/1C5042E5-E31E-4E59-A488-EC4145B575F9.jpeg" alt="Us">
+    </div>
+  `;
+  for(let i=0;i<100;i++){
+    const heart=document.createElement('div');
+    heart.className='heart';
+    heart.style.left=Math.random()*window.innerWidth+'px';
+    heart.style.top='50%';
+    heart.style.fontSize=(10+Math.random()*30)+'px';
+    heart.style.animationDuration=(2+Math.random()*2)+'s';
+    heart.innerHTML='💖';
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),3000);
+  }
+}
 </script>
 </body>
 </html>
